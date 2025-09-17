@@ -24,7 +24,7 @@ import SavedResponses from './components/SavedResponses/SavedResponses';
  */
 export default function App() {
   // schema persisted to localStorage (key: formBuilderSchema)
-  const [formSchema, setFormSchema] = useLocalStorage('formBuilderSchema');
+  const [formSchema, setFormSchema] = useLocalStorage('formBuilderSchema', );
   // responses persisted (key: formResponses)
   const [responses, setResponses] = useLocalStorage('formResponses', []);
   const [selectedField, setSelectedField] = useState(null);
