@@ -24,8 +24,8 @@ export default function AddFieldPanel({ onAddField }) {
   className="flex flex-col items-center justify-center p-4 bg-blue-400 hover:bg-blue-700 border-2 border-gray-200 hover:border-blue-400 rounded-lg transition-all duration-200 text-white"
   title={`Add ${t.label}`}
 >
-            {/* <span className="text-2xl mb-2">{t.icon}</span> */}
-            <span className="text-sm font-semibold text-gray-700">{t.label}</span>
+            <span className="text-xl mb-2">{t.icon}</span>
+            <span className="text-md text-red-700">{t.label}</span>
           </button>
         ))}
       </div>
