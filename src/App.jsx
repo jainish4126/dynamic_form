@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { motion } from 'framer-motion';
 
 import useLocalStorage from './hooks/useLocalStorage';
-// import { defaultForm } from './data/defaultForm';
+import { defaultForm } from './data/defaultForm';
 
 import AddFieldPanel from './components/FormBuilder/AddFieldPanel';
 import FieldList from './components/FormBuilder/FieldList';
@@ -24,7 +24,7 @@ import SavedResponses from './components/SavedResponses/SavedResponses';
  */
 export default function App() {
   // schema persisted to localStorage (key: formBuilderSchema)
-  const [formSchema, setFormSchema] = useLocalStorage('formBuilderSchema', );
+  const [formSchema, setFormSchema] = useLocalStorage('formBuilderSchema', defaultForm);
   // responses persisted (key: formResponses)
   const [responses, setResponses] = useLocalStorage('formResponses', []);
   const [selectedField, setSelectedField] = useState(null);
