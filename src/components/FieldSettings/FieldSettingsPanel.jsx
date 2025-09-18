@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-/**
- * Panel used to edit settings of the selected field.
- * - receives `field` object and `onUpdateField(updatedField)` callback.
- */
+const INPUT_TYPE_OPTIONS = [
+  { value: 'name', label: 'Name' },
+  { value: 'email', label: 'Email' },
+  { value: 'password', label: 'Password' },
+  { value: 'textarea', label: 'Text Area' },
+];
+
 export default function FieldSettingsPanel({ field, onUpdateField, onClose }) {
   const [local, setLocal] = useState(field || {});
 
@@ -42,6 +45,9 @@ export default function FieldSettingsPanel({ field, onUpdateField, onClose }) {
     update('options', opts);
   };
 
+  // Addition: allow selecting subtype for text fields
+  const showInputTypeDropdown = local.type === 'text';
+
   return (
     <div className="bg-blue-300 rounded-lg shadow-lg p-6 panel-slide">
       <div className="flex items-center justify-between mb-6">
@@ -50,7 +56,6 @@ export default function FieldSettingsPanel({ field, onUpdateField, onClose }) {
       </div>
 
       <div className="space-y-4">
-        {/* Label */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Field Label</label>
           <input
@@ -59,9 +64,23 @@ export default function FieldSettingsPanel({ field, onUpdateField, onClose }) {
             className="w-full px-3 py-2 border border-black rounded-md"
           />
         </div>
-
-        {/* Placeholder for text */}
-        {local.type === 'text' && (
+        {/* Input type selection for text fields */}
+        {showInputTypeDropdown && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Input Type</label>
+            <select
+              value={local.inputType || 'name'}
+              onChange={e => update('inputType', e.target.value)}
+              className="w-full px-3 py-2 border border-black rounded-md"
+            >
+              {INPUT_TYPE_OPTIONS.map(opt => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+          </div>
+        )}
+        {/* Placeholder for text and textarea */}
+        {(local.type === 'text' && local.inputType !== 'textarea') && (
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Placeholder</label>
             <input
@@ -71,7 +90,19 @@ export default function FieldSettingsPanel({ field, onUpdateField, onClose }) {
             />
           </div>
         )}
-
+        {/* Textarea placeholder */}
+        {(local.type === 'text' && local.inputType === 'textarea') && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Placeholder</label>
+            <input
+              value={local.placeholder || ''}
+              onChange={(e) => update('placeholder', e.target.value)}
+              maxLength={500}
+              className="w-full px-3 py-2 border border-black rounded-md"
+            />
+            <small className="text-xs text-gray-600">Max 500 characters</small>
+          </div>
+        )}
         {/* Required toggle (not for title) */}
         {local.type !== 'title' && (
           <div className="flex items-center justify-between">
@@ -84,8 +115,6 @@ export default function FieldSettingsPanel({ field, onUpdateField, onClose }) {
             </button>
           </div>
         )}
-
-        {/* Options for dropdown/radio */}
         {(local.type === 'dropdown' || local.type === 'radio') && (
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Options</label>
@@ -104,8 +133,6 @@ export default function FieldSettingsPanel({ field, onUpdateField, onClose }) {
             </div>
           </div>
         )}
-
-        {/* Default value (dropdown) */}
         {local.type === 'dropdown' && local.options && local.options.length > 0 && (
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Default Value</label>
@@ -119,8 +146,6 @@ export default function FieldSettingsPanel({ field, onUpdateField, onClose }) {
             </select>
           </div>
         )}
-
-        {/* Default value (checkbox) */}
         {local.type === 'checkbox' && (
           <div className="flex items-center justify-between">
             <label className="text-sm font-medium text-gray-700">Default Checked</label>

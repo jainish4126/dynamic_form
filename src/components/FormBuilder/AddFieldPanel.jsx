@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const FIELD_TYPES = [
   { value: 'title', label: 'Title', icon: '📋' },
-  { value: 'text', label: 'Text Input', icon: '📝' },
+  { value: 'text', label: 'Input Feild', icon: '📝' },
   { value: 'dropdown', label: 'Dropdown', icon: '📊' },
   { value: 'checkbox', label: 'Checkbox', icon: '☑️' },
   { value: 'radio', label: 'Radio buttons', icon: '⭕' },
